@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelter Dive</title>
+    <style>
+        /* --- Reset & Global Styles --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #ffffff;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* --- Frozen Top Navigation Bar --- */
+        header {
+            background-color: #ffffff;
+            color: #333;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+
+        /* Left: Dropdown Menu Trigger */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropbtn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 100%;
+            background-color: #ffffff;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.15);
+            border: 1px solid #eee;
+            border-radius: 4px;
+            z-index: 1001;
+        }
+
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            display: block;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f4f7f6;
+            color: #0077be;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Center: Brand & Logo */
+        .brand-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-placeholder {
+            width: 35px;
+            height: 35px;
+            background-color: #0077be;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .brand-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        /* Right: Language Switcher */
+        .lang-btn {
+            background-color: #0077be;
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .lang-btn:hover {
+            background-color: #005c93;
+        }
+
+        /* --- Continuous Video Banner --- */
+        .video-banner-container {
+            width: 100%;
+            height: 50vh;
+            min-height: 400px;
+            max-height: 600px;
+            background-color: #1a365d;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .video-banner-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* --- Frozen Information Bar --- */
+        .info-bar {
+            background-color: #0077be;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            font-weight: bold;
+            font-size: 0.95rem;
+            position: sticky;
+            top: 57px;
+            z-index: 990;
+        }
+
+        /* --- Main Content Area --- */
+        .main-container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        /* Top Landing Category Cards */
+        .top-categories {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .category-card {
+            flex: 1;
+            height: 150px;
+            border: 2px solid #0077be;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #0077be;
+            background-color: #f8fafc;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            background-color: #0077be;
+            color: white;
+        }
+
+        /* Sections */
+        .content-section {
+            padding: 20px 0;
+            margin-bottom: 40px;
+            border-top: 1px solid #eee;
+        }
+
+        .content-section h2 {
+            font-size: 1.8rem;
+            color: #0d233a;
+            margin-bottom: 20px;
+        }
+
+        /* Nested Course Windows */
+        .course-window {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #fafafa;
+        }
+
+        .link-boxes {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .agency-box {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            color: white;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: opacity 0.2s ease;
+            display: inline-block;
+        }
+
+        .agency-box:hover {
+            opacity: 0.85;
+        }
+
+        .padi-box { background-color: #0033a0; }
+        .sdi-box { background-color: #111111; }
+
+        /* Cressi Integration Banner */
+        .cressi-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background-color: #111;
+            color: #fff;
+            padding: 20px;
+            border-radius: 6px;
+            border-left: 5px solid #ffcc00;
+            margin-top: 20px;
+        }
+
+        .cressi-logo {
+            width: 90px;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .cressi-info h4 {
+            color: #ffcc00;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        /* Carousel Window */
+        .carousel-container {
+            width: 100%;
+            height: 520px;
+            overflow: hidden;
+            position: relative;
+            margin: 20px 0;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            background-color: #000;
+        }
+
+        .carousel-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        /* Q&A Window */
+        .qa-window {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 20px;
+            margin-top: 25px;
+            background-color: #fafafa;
+        }
+
+        .qa-item {
+            margin-bottom: 12px;
+        }
+
+        /* --- Frozen Bottom Footer --- */
+        footer {
+            background-color: #0d233a;
+            color: white;
+            padding: 15px 20px;
+            position: sticky;
+            bottom: 0;
+            z-index: 1000;
+            font-size: 0.85rem;
+        }
+
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .video-banner-container {
+                height: 35vh;
+                min-height: 250px;
+            }
+
+            .carousel-container {
+                height: 300px;
+            }
+
+            .top-categories, .link-boxes, .footer-content, .cressi-card {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Frozen Top Line Navigation -->
+    <header>
+        <div class="nav-container">
+            <!-- Left: Dropdown Icon -->
+            <div class="dropdown">
+                <button class="dropbtn" aria-label="Menu">&#9776;</button>
+                <div class="dropdown-content">
+                    <a href="#courses" data-i18n="navCourses">Courses</a>
+                    <a href="#service" data-i18n="navService">Service</a>
+                    <a href="#about" data-i18n="navAbout">Who am I / About me</a>
+                    <a href="#qa" data-i18n="navQA">Q&A</a>
+                    <a href="#contact" data-i18n="navContact">Contact</a>
+                    <a href="#inspiration" data-i18n="navInspiration">Dive Inspiration</a>
+                </div>
+            </div>
+
+            <!-- Center: Brand and Logo -->
+            <div class="brand-container">
+                <div class="logo-placeholder">LOGO</div>
+                <span class="brand-title" data-i18n="brand">Pelter Dive</span>
+            </div>
+
+            <!-- Right: Language Toggle -->
+            <button class="lang-btn" id="langToggleBtn" onclick="toggleLanguage()">DK</button>
+        </div>
+    </header>
+
+    <!-- Running Video Banner Window -->
+    <div class="video-banner-container">
+        <video id="bannerVideo" autoplay muted loop playsinline>
+            <source src="pelter dive vid.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Frozen Information Line -->
+    <div class="info-bar" data-i18n="infoBar">
+        For Information & Inquiries Always Contact me Directly
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="main-container">
+
+        <!-- Top Category Entry Windows -->
+        <div class="top-categories">
+            <a href="#courses" class="category-card" data-i18n="catCourses">Dive Courses</a>
+            <a href="#service" class="category-card" data-i18n="catService">Equipment Service</a>
+        </div>
+
+        <!-- Section 1: Dive Courses -->
+        <section id="courses" class="content-section">
+            <h2 data-i18n="secCourses">Dive Courses</h2>
+            
+            <div class="course-window">
+                <h3 data-i18n="startTitle">Start Your Dive Adventure</h3>
+                <p data-i18n="startDesc">Begin your underwater journey with open water certification through internationally recognized training agencies.</p>
+                <div class="link-boxes">
+                    <a href="https://www.padi.com/courses/open-water-diver" target="_blank" class="agency-box padi-box">PADI Open Water</a>
+                    <a href="https://www.tdisdi.com/sdi/get-certified/open-water-scuba-diver-course/" target="_blank" class="agency-box sdi-box">SDI Open Water</a>
+                </div>
+            </div>
+
+            <div class="course-window">
+                <h3 data-i18n="enhanceTitle">Enhance Your Dive Skills</h3>
+                <p data-i18n="enhanceDesc">Take your diving further with advanced education, specialty training, and skill refinement courses.</p>
+                <div class="link-boxes">
+                    <a href="https://www.padi.com/courses/advanced-open-water-diver" target="_blank" class="agency-box padi-box">PADI Advanced</a>
+                    <a href="https://www.tdisdi.com/sdi/get-certified/advanced-adventure-diver/" target="_blank" class="agency-box sdi-box">SDI Advanced Adventure</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Equipment Service -->
+        <section id="service" class="content-section">
+            <h2 data-i18n="secService">Equipment Service</h2>
+            <p data-i18n="serviceDesc">Professional inspection, maintenance, and regular servicing for regulators, tanks, and dive gear.</p>
+            
+            <!-- Cressi Authorized Service Partner Integration -->
+            <div class="cressi-card">
+                <img src="Cressi_Logo.png" alt="Cressi Logo" class="cressi-logo">
+                <div class="cressi-info">
+                    <h4 data-i18n="cressiTitle">Authorized Cressi Service Center</h4>
+                    <p data-i18n="cressiDesc">Factory-certified servicing, warranty maintenance, and genuine replacement parts for all Cressi dive equipment.</p>
+                </div>
+            </div>
+
+            <!-- Rotating Image Carousel -->
+            <div class="carousel-container">
+                <img id="carouselImage" src="Photos/Coral_001.jpg" alt="Equipment Service">
+            </div>
+
+            <!-- Questions and Answers Sub-Window -->
+            <div id="qa" class="qa-window">
+                <h3 data-i18n="qaTitle">Questions and Answers</h3>
+                <div class="qa-item">
+                    <strong data-i18n="qaQ1">Q: How often should dive equipment be serviced?</strong>
+                    <p data-i18n="qaA1">A: Regulators and essential life-support equipment should generally be inspected annually or after every 100 dives.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Who Am I / About Me -->
+        <section id="about" class="content-section">
+            <h2 data-i18n="aboutTitle">Who am I / About me</h2>
+            <p data-i18n="aboutDesc">Passionate diving instructor providing personalized diving courses and expert equipment services.</p>
+        </section>
+
+        <!-- Section 4: Dive Inspiration -->
+        <section id="inspiration" class="content-section">
+            <h2 data-i18n="inspireTitle">Dive Inspiration</h2>
+            <p data-i18n="inspireDesc">Explore moments from local and international dive adventures.</p>
+        </section>
+
+    </div>
+
+    <!-- Frozen Bottom Contact Bar -->
+    <footer id="contact">
+        <div class="footer-content">
+            <div><strong data-i18n="emailLbl">Email:</strong> info@pelterdive.com</div>
+            <div><strong data-i18n="phoneLbl">Phone / WhatsApp:</strong> +45 00 00 00 00</div>
+            <div><strong data-i18n="addrLbl">Address:</strong> Denmark</div>
+            <div><strong data-i18n="cvrLbl">CVR:</strong> 12345678</div>
+        </div>
+    </footer>
+
+    <!-- Interactive Logic Scripts -->
+    <script>
+        // --- 1. Photo Carousel Rotation ---
+        const images = [
+            'Photos/Coral_001.jpg',
+            'Photos/Coral_002.jpg',
+            'Photos/Coral_003.JPG',
+            'Photos/Coral_004.jpg',
+            'Photos/Coral_005.jpg',
+            'Photos/Coral_006.jpg',
+            'Photos/Diver_001.jpg',
+            'Photos/Diver_002.jpg',
+            'Photos/Diver_003.jpg',
+            'Photos/Diver_004.jpg',
+            'Photos/Diver_005.jpg',
+            'Photos/DSC_1295.JPG',
+            'Photos/DSCN0026(1).jpg',
+            'Photos/Fish_001.jpg',
+            'Photos/Fish_002.jpg',
+            'Photos/Fish_003.jpg',
+            'Photos/Fish_004.jpg',
+            'Photos/Fish_005.jpg',
+            'Photos/Fish_006.jpg',
+            'Photos/Fish_007.JPG',
+            'Photos/Fish_008.jpg',
+            'Photos/Fish_009.jpg',
+            'Photos/Fish_010.jpg',
+            'Photos/Fish_011.jpg',
+            'Photos/Fish_012.jpg',
+            'Photos/Fish_013.jpg',
+            'Photos/Fish_014.jpg',
+            'Photos/Fish_015.jpg',
+            'Photos/Fish_016.JPG',
+            'Photos/Fish_017.jpg',
+            'Photos/Fish_018.jpg',
+            'Photos/Fish_019.jpg'
+        ];
+
+        let currentImageIndex = 0;
+        const imageElement = document.getElementById('carouselImage');
+
+        if (imageElement) {
+            setInterval(() => {
+                currentImageIndex = (currentImageIndex + 1) % images.length;
+                imageElement.style.opacity = 0;
+                
+                setTimeout(() => {
+                    imageElement.src = images[currentImageIndex];
+                    imageElement.style.opacity = 1;
+                }, 300);
+            }, 4000);
+
+            imageElement.onerror = function() {
+                console.warn('Failed to load image:', images[currentImageIndex]);
+                currentImageIndex = (currentImageIndex + 1) % images.length;
+                imageElement.src = images[currentImageIndex];
+            };
+        }
+
+        // --- 2. Language Switching Logic (EN / DK) ---
+        let currentLang = 'en';
+
+        const translations = {
+            en: {
+                brand: "Pelter Dive",
+                navCourses: "Courses",
+                navService: "Service",
+                navAbout: "Who am I / About me",
+                navQA: "Q&A",
+                navContact: "Contact",
+                navInspiration: "Dive Inspiration",
+                infoBar: "For Information & Inquiries Always Contact me Directly",
+                catCourses: "Dive Courses",
+                catService: "Equipment Service",
+                secCourses: "Dive Courses",
+                startTitle: "Start Your Dive Adventure",
+                startDesc: "Begin your underwater journey with open water certification through internationally recognized training agencies.",
+                enhanceTitle: "Enhance Your Dive Skills",
+                enhanceDesc: "Take your diving further with advanced education, specialty training, and skill refinement courses.",
+                secService: "Equipment Service",
+                serviceDesc: "Professional inspection, maintenance, and regular servicing for regulators, tanks, and dive gear.",
+                cressiTitle: "Authorized Cressi Service Center",
+                cressiDesc: "Factory-certified servicing, warranty maintenance, and genuine replacement parts for all Cressi dive equipment.",
+                qaTitle: "Questions and Answers",
+                qaQ1: "Q: How often should dive equipment be serviced?",
+                qaA1: "A: Regulators and essential life-support equipment should generally be inspected annually or after every 100 dives.",
+                aboutTitle: "Who am I / About me",
+                aboutDesc: "Passionate diving instructor providing personalized diving courses and expert equipment services.",
+                inspireTitle: "Dive Inspiration",
+                inspireDesc: "Explore moments from local and international dive adventures.",
+                emailLbl: "Email:",
+                phoneLbl: "Phone / WhatsApp:",
+                addrLbl: "Address:",
+                cvrLbl: "CVR:"
+            },
+            dk: {
+                brand: "Pelter Dive",
+                navCourses: "Dykkerkurser",
+                navService: "Udstyrsservice",
+                navAbout: "Hvem er jeg / Om mig",
+                navQA: "Spørgsmål & Svar",
+                navContact: "Kontakt",
+                navInspiration: "Dykkerinspiration",
+                infoBar: "For Information & Forespørgsler Kontakt Mig Altid Direkte",
+                catCourses: "Dykkerkurser",
+                catService: "Udstyrsservice",
+                secCourses: "Dykkerkurser",
+                startTitle: "Start Dit Dykkeeventyr",
+                startDesc: "Start din undervandsrejse med et Open Water-certifikat gennem internationalt anerkendte organisationer.",
+                enhanceTitle: "Styrk Dine Dykkerfærdigheder",
+                enhanceDesc: "Tag din dykning videre med videregående uddannelse, specialkurser og præcisionsopkvalificering.",
+                secService: "Udstyrsservice",
+                serviceDesc: "Professionelt eftersyn, vedligeholdelse og regelmæssig service af regulatorer, flasker og dykkerudstyr.",
+                cressiTitle: "Autoriseret Cressi Servicecenter",
+                cressiDesc: "Fabriksgodkendt service, garanti-vedligeholdelse og originale reservedele til alt Cressi dykkerudstyr.",
+                qaTitle: "Spørgsmål og Svar",
+                qaQ1: "Spørgsmål: Hvor ofte skal dykkerudstyr serviceres?",
+                qaA1: "Svar: Regulatorer og livsvigtigt udstyr bør generelt efterses årligt eller for hver 100 dyk.",
+                aboutTitle: "Hvem er jeg / Om mig",
+                aboutDesc: "Lidenskabelig dykkerinstruktør, der tilbyder personlige dykkerkurser og ekspertservice af udstyr.",
+                inspireTitle: "Dykkerinspiration",
+                inspireDesc: "Oplev øjeblikke fra lokale og internationale dykkereventyr.",
+                emailLbl: "E-mail:",
+                phoneLbl: "Telefon / WhatsApp:",
+                addrLbl: "Adresse:",
+                cvrLbl: "CVR:"
+            }
+        };
+
+        function toggleLanguage() {
+            currentLang = (currentLang === 'en') ? 'dk' : 'en';
+            document.getElementById('langToggleBtn').innerText = (currentLang === 'en') ? 'DK' : 'EN';
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[currentLang][key]) {
+                    element.innerText = translations[currentLang][key];
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
