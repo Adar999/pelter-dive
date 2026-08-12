@@ -228,20 +228,29 @@
         .agency-box {
             flex: 1;
             text-align: center;
-            padding: 15px;
-            color: white;
-            border-radius: 4px;
+            padding: 12px 15px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             font-weight: bold;
-            transition: opacity 0.2s ease;
-            display: inline-block;
+            color: #0d233a;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .agency-box:hover {
-            opacity: 0.85;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        .padi-box { background-color: #0033a0; }
-        .sdi-box { background-color: #111111; }
+        .agency-logo {
+            height: 32px;
+            width: auto;
+            object-fit: contain;
+        }
 
         /* Cressi Integration Banner */
         .cressi-card {
@@ -410,8 +419,14 @@
                 <h3 data-i18n="startTitle">Start Your Dive Adventure</h3>
                 <p data-i18n="startDesc">Begin your underwater journey with open water certification through internationally recognized training agencies.</p>
                 <div class="link-boxes">
-                    <a href="https://www.padi.com/courses/open-water-diver" target="_blank" class="agency-box padi-box">PADI Open Water</a>
-                    <a href="https://www.tdisdi.com/sdi/get-certified/open-water-scuba-diver-course/" target="_blank" class="agency-box sdi-box">SDI Open Water</a>
+                    <a href="https://www.padi.com/courses/open-water-diver" target="_blank" class="agency-box">
+                        <img src="PADI_Logo.png" alt="PADI Logo" class="agency-logo">
+                        <span>PADI Open Water</span>
+                    </a>
+                    <a href="https://www.tdisdi.com/sdi/get-certified/open-water-scuba-diver-course/" target="_blank" class="agency-box">
+                        <img src="SDI_Logo.png" alt="SDI Logo" class="agency-logo">
+                        <span>SDI Open Water</span>
+                    </a>
                 </div>
             </div>
 
@@ -419,8 +434,14 @@
                 <h3 data-i18n="enhanceTitle">Enhance Your Dive Skills</h3>
                 <p data-i18n="enhanceDesc">Take your diving further with advanced education, specialty training, and skill refinement courses.</p>
                 <div class="link-boxes">
-                    <a href="https://www.padi.com/courses/advanced-open-water-diver" target="_blank" class="agency-box padi-box">PADI Advanced</a>
-                    <a href="https://www.tdisdi.com/sdi/get-certified/advanced-adventure-diver/" target="_blank" class="agency-box sdi-box">SDI Advanced Adventure</a>
+                    <a href="https://www.padi.com/courses/advanced-open-water-diver" target="_blank" class="agency-box">
+                        <img src="PADI_Logo.png" alt="PADI Logo" class="agency-logo">
+                        <span>PADI Advanced</span>
+                    </a>
+                    <a href="https://www.tdisdi.com/sdi/get-certified/advanced-adventure-diver/" target="_blank" class="agency-box">
+                        <img src="SDI_Logo.png" alt="SDI Logo" class="agency-logo">
+                        <span>SDI Advanced Adventure</span>
+                    </a>
                 </div>
             </div>
         </section>
